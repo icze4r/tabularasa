@@ -1,23 +1,21 @@
-# Post Curator 🌊
+# The Eraser 🧹
 
-**A Bluesky tool to scan your posts, sort and filter by engagement, and delete the ones you don't want.**
+**A Bluesky tool to selectively or completely clear your blocks and mutes.**
 
 Made by Durandal
 
-an [ICZE4R](https://bsky.app/profile/iczer.one) joint • [→ Open the tool](https://icze4r.github.io/tabularasa/bluesky-eraser.html)
+an [ICZE4R](https://bsky.app/profile/iczer.one) • [→ Open the tool](https://icze4r.github.io/tabularasa/bluesky-eraser.html/)
 
 ---
 
 ## What it does
 
-Bluesky gives you no way to bulk-manage your post history. Post Curator fixes that:
+Bluesky gives you no bulk management for your blocks or mutes. The Eraser fixes that:
 
 1. Logs in with your app password
-2. Scans your posts (with optional reply inclusion) in paginated batches
-3. Lets you sort by likes, reposts, replies, quotes, or date
-4. Lets you set engagement thresholds — anything below gets highlighted
-5. Lets you select posts individually, in bulk, or automatically by threshold
-6. Deletes selected posts permanently via the official Bluesky API
+2. Fetches your complete block list and mute list from Bluesky's API
+3. Shows both in tabbed lists with avatars, handles, and follow status
+4. Lets you remove them selectively with checkboxes, or nuke everything at once
 
 Everything runs **entirely in your browser**. No server, no data collection, no tracking.
 
@@ -27,11 +25,11 @@ Everything runs **entirely in your browser**. No server, no data collection, no 
 
 ### Online (recommended)
 
-Just open the tool: **[https://icze4r.github.io/post-curator/](https://icze4r.github.io/post-curator/)**
+**[https://icze4r.github.io/tabularasa/bluesky-eraser.html/](https://icze4r.github.io/tabularasa/bluesky-eraser.html)**
 
 ### Local
 
-Download `bluesky-eraser.html` and open it in any browser. No CORS issues — everything goes directly to Bluesky's API.
+Download `index.html` and open it in any browser. No CORS issues — everything talks directly to Bluesky's API.
 
 ---
 
@@ -39,93 +37,78 @@ Download `bluesky-eraser.html` and open it in any browser. No CORS issues — ev
 
 **Step 1 — Get an App Password**
 
-Go to [bsky.app/settings/app-passwords](https://bsky.app/settings/app-passwords) and create one. Use this instead of your main password. You can revoke it at any time.
+Go to [bsky.app/settings/app-passwords](https://bsky.app/settings/app-passwords) and generate one. Never use your main password with third-party tools. Revoke it any time from the same page.
 
-**Step 2 — Choose what to scan**
+**Step 2 — Connect**
 
-Before connecting, select what you want to scan:
-- **Posts** — your original posts only
-- **Replies** — your replies to others only
-- **Both** — everything
+Enter your handle and app password and hit Connect. The tool fetches your follows, blocks, and mutes.
 
-**Step 3 — Connect and scan**
+**Step 3 — Choose your tab**
 
-Enter your handle and app password and hit **Connect & Scan →**. The tool loads your posts in batches of 100. Hit **Load More** to keep paginating until you've pulled as much history as you want.
+- **🚫 Blocks** — everyone you've blocked
+- **🔇 Mutes** — everyone you've muted
 
-**Step 4 — Filter and sort**
+**Step 4 — Remove**
 
-Use the filter bar to set minimum thresholds:
-- **Min likes / reposts / replies / quotes** — posts below any of these get highlighted in red and marked "below threshold"
+*Selective:*
+Use the checkboxes to pick individual accounts. Toggle **Skip people I follow** to hide follows from selection. Hit **Unblock Selected** or **Unmute Selected**.
 
-Sort the list by any metric or by date, ascending or descending.
-
-**Step 5 — Select**
-
-Three quick-select options:
-- **Select all** — everything currently visible
-- **Deselect all** — clear your selection
-- **Select below threshold** — automatically checks every post that doesn't meet your thresholds
-
-Or check/uncheck individual posts manually. Click any post's text to expand it if it's truncated.
-
-**Step 6 — Delete**
-
-Hit **🗑 Delete Selected**. You'll get a confirmation prompt first. The tool deletes posts one at a time with a small delay, and shows a live log of results.
+*Nuclear:*
+Hit **💥 Unblock All** or **💥 Unmute All** to clear the entire list at once. Confirms before running.
 
 ---
 
-## Filter reference
+## Filters
 
-| Field | What it does |
+| Toggle | What it does |
 |---|---|
-| Min Likes | Highlights posts with fewer likes than this value |
-| Min Reposts | Highlights posts with fewer reposts than this value |
-| Min Replies | Highlights posts with fewer replies than this value |
-| Min Quotes | Highlights posts with fewer quotes than this value |
-
-All thresholds are independent — a post is marked "below threshold" if it falls short on **any** active threshold.
+| Skip people I follow | Excludes anyone you currently follow from the selection |
 
 ---
 
-## Notes
+## Technical notes
 
-- **Deletion is permanent.** There is no undo. The tool asks for confirmation before proceeding.
-- Posts are loaded 100 at a time — use **Load More** to paginate through older history.
-- The tool adds a 300ms delay between deletions to stay within Bluesky's rate limits.
-- Deleted posts are greyed out in the list but not removed until you refresh or reset, so you can see what was processed.
-- Post text is truncated to 3 lines by default — click any post to expand it.
+Unblocking works by deleting the underlying AT Protocol block record from your repo — not just calling a simple API endpoint. The tool grabs the record URI during the initial fetch and uses it to delete cleanly. If the URI isn't available for any record it falls back to searching your repo automatically.
+
+---
+
+## Rate limits
+
+- 300ms delay between unblock operations
+- 250ms delay between nuclear-mode operations  
+- If you hit rate limit errors mid-run, wait a few minutes and reconnect — already-processed accounts are marked done and won't be double-processed in the same session
 
 ---
 
 ## Privacy & security
 
-- **Your credentials** go directly to `bsky.social` — nowhere else.
-- **Nothing is stored** — no localStorage, no cookies, no external analytics.
-- The entire tool is a single self-contained HTML file. You can read every line of it.
+- **Your credentials** go directly to `bsky.social` — nowhere else
+- **No third-party services** used at all
+- **Nothing stored** — no localStorage, no cookies, no analytics
+- Single self-contained HTML file — read every line of it
 
 ---
 
 ## Running on GitHub Pages
 
 1. Fork or clone this repo
-2. Rename `bluesky-curator.html` to `index.html`. or don't, i'm not your dad
+2. Rename `bluesky-eraser.html` to `index.html`
 3. Go to **Settings → Pages**
 4. Set source to **Deploy from a branch** → `main` → `/ (root)`
-5. Save — live within about a minute at `https://yourusername.github.io/post-curator/`
+5. Save — live within about a minute
 
 ---
 
-## Related Bluyesky tools
+## Related
 
 - **[Spite — Bluesky BlockBack Tool](https://github.com/icze4r/blockback)** — find accounts blocking you and block them back
-- **[Ambivalence — Mute Manager](https://github.com/icze4r/mute-manager)** — convert mutes to blocks or clear them all
-- **[Tabula Rasa — The Eraser](https://github.com/icze4r/tabularasa)** — selectively or completely clear your blocks and mutes
+- **[Mute Manager](https://github.com/icze4r/mute-manager)** — convert mutes to blocks or clear them
 
 ---
 
 ## Credits
 
-Built with the [Bluesky AT Protocol API](https://docs.bsky.app) — `getAuthorFeed`, `deleteRecord`.
+Built with the [Bluesky AT Protocol API](https://docs.bsky.app) — `getBlocks`, `getMutes`, `getFollows`, `deleteRecord`, `unmuteActor`.
 
 ---
 
