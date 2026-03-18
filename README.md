@@ -2,7 +2,9 @@
 
 **A Bluesky tool to scan your posts, sort and filter by engagement, and delete the ones you don't want.**
 
-Made by [ICZE4R](https://bsky.app/profile/iczer.one) • [→ Open the tool](https://icze4r.github.io/post-curator/)
+Made by Durandal
+
+an [ICZE4R](https://bsky.app/profile/iczer.one) joint • [→ Open the tool](https://icze4r.github.io/post-curator/bluesky-eraser.html)
 
 ---
 
@@ -29,7 +31,7 @@ Just open the tool: **[https://icze4r.github.io/post-curator/](https://icze4r.gi
 
 ### Local
 
-Download `index.html` and open it in any browser. No CORS issues — everything goes directly to Bluesky's API.
+Download `bluesky-eraser.html` and open it in any browser. No CORS issues — everything goes directly to Bluesky's API.
 
 ---
 
@@ -106,18 +108,18 @@ All thresholds are independent — a post is marked "below threshold" if it fall
 ## Running on GitHub Pages
 
 1. Fork or clone this repo
-2. Rename `bluesky-curator.html` to `index.html`
+2. Rename `bluesky-curator.html` to `index.html`. or don't, i'm not your dad
 3. Go to **Settings → Pages**
 4. Set source to **Deploy from a branch** → `main` → `/ (root)`
 5. Save — live within about a minute at `https://yourusername.github.io/post-curator/`
 
 ---
 
-## Related Spite tools
+## Related Bluyesky tools
 
 - **[Spite — Bluesky BlockBack Tool](https://github.com/icze4r/blockback)** — find accounts blocking you and block them back
-- **[Mute Manager](https://github.com/icze4r/mute-manager)** — convert mutes to blocks or clear them all
-- **[The Eraser](https://github.com/icze4r/eraser)** — selectively or completely clear your blocks and mutes
+- **[Ambivalence — Mute Manager](https://github.com/icze4r/mute-manager)** — convert mutes to blocks or clear them all
+- **[Tabula Rasa — The Eraser](https://github.com/icze4r/tabularasa)** — selectively or completely clear your blocks and mutes
 
 ---
 
